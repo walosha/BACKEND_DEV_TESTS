@@ -1,0 +1,10 @@
+{
+  "extends": "@tsconfig/node16/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "module": "commonjs",
+    "typeRoots": ["./node_modules/@types", "./@types", "./types/express.d.ts"]
+  },
+  "include": ["src", "@types/express.d.ts"],
+  "exclude": ["node_modules", "**/node_modules/*"]
+}
