@@ -66,7 +66,7 @@ const sendErrorProd = (err: any, req: Request, res: Response) => {
 
 export const globalErrorHandler = (err: any, req: Request, res: Response) => {
   // console.log(err.stack);
-
+  console.log({ err, req, res }, '----------------------------');
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 

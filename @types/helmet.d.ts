@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-declare module 'helmet' {
+declare module 'xss-clean' {
   const value: Function;
 
   export default value;

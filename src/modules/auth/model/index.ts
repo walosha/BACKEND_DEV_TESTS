@@ -1,5 +1,5 @@
 import { Document, Model, Schema, model } from 'mongoose';
-// import { isEmail } from 'validator';
+import * as EmailValidator from 'email-validator';
 import { hash, compare } from 'bcryptjs';
 // import { IUser } from '../types';
 
@@ -34,7 +34,7 @@ const userSchema = new Schema<IUser>({
     required: [true, 'Please provide your email'],
     unique: true,
     lowercase: true,
-    // validate: [isEmail, 'Please provide a valid email'],
+    validate: [EmailValidator.validate, 'Please provide a valid email'],
   },
 
   role: {

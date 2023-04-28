@@ -1,18 +1,19 @@
+// https://blog.logrocket.com/documenting-express-js-api-swagger/
 export const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'LogRocket Express API with Swagger',
+      title: 'BACKEND_DEV_TEST',
       version: '0.1.0',
-      description: 'This is a simple CRUD API application made with Express and documented with Swagger',
+      description: 'Banking open API',
       license: {
         name: 'MIT',
         url: 'https://spdx.org/licenses/MIT.html',
       },
       contact: {
         name: 'LogRocket',
-        url: 'https://logrocket.com',
-        email: 'info@email.com',
+        url: 'localhost:3000',
+        email: 'walosha@yahoo.com',
       },
     },
     servers: [
@@ -21,5 +22,5 @@ export const options = {
       },
     ],
   },
-  apis: ['./routes/*.js'],
+  apis: ['./src/modules/**/*.ts'],
 };

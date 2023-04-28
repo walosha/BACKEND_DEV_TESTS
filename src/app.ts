@@ -2,9 +2,8 @@ import express from 'express';
 import morgan from 'morgan';
 // import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
-// import xss from 'xss-clean';
 import cookieParser from 'cookie-parser';
-// import cors from 'cors';
+import cors from 'cors';
 import { AppError } from './utils/appError';
 import userRouter from './modules/auth/controller';
 import { globalErrorHandler } from './middleware';
@@ -24,8 +23,7 @@ app.enable('trust proxy');
 
 // 1) GLOBAL MIDDLEWARES
 // Implement CORS
-// app.use(cors());
-// app.options('*', cors());
+app.use(cors());
 // Set security HTTP headers
 // app.use(helmet());
 
@@ -41,12 +39,10 @@ app.use(cookieParser());
 
 app.use(mongoSanitize());
 
-// Data sanitization against XSS
-// app.use(xss());
-
 // 3) ROUTES
-app.use('/api/v1/users', userRouter);
+app.use('/api/v1/auth', userRouter);
 app.all('*', (req, res, next) => {
+  console.log('====================');
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
