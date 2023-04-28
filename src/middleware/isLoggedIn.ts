@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Request, Response } from 'express';
-import User from '../auth/model';
 import jwt from 'jsonwebtoken';
+import User from '../modules/auth/model';
 
 // Only for rendered pages, no errors!
 export async function isLoggedIn(req: Request, res: Response, next: NextFunction) {

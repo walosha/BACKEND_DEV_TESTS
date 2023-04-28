@@ -6,7 +6,7 @@ import mongoSanitize from 'express-mongo-sanitize';
 import cookieParser from 'cookie-parser';
 // import cors from 'cors';
 import { AppError } from './utils/appError';
-import userRouter from './auth/controller';
+import userRouter from './modules/auth/controller';
 import { globalErrorHandler } from './middleware';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';

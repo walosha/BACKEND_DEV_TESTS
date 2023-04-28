@@ -1,9 +1,9 @@
 import { sign } from 'jsonwebtoken';
 import { IUser } from '../types';
 import { Request, Response } from 'express';
-import { catchAsync } from '../../utils/catchAsync';
 import User from '../model';
-import { AppError } from '../../utils/appError';
+import { AppError } from '../../../utils/appError';
+import { catchAsync } from '../../../utils/catchAsync';
 
 const signToken = (id: string) => {
   return sign({ id }, process.env.JWT_SECRET as string, {

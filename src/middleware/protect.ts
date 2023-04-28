@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { JwtPayload, verify } from 'jsonwebtoken';
 import { AppError } from '../utils/appError';
-import User from '../auth/model';
 import { catchAsync } from '../utils/catchAsync';
+import User from '../modules/auth/model';
 
 export const protect = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   // 1) Getting token and check of it's there
