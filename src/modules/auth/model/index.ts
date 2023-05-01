@@ -34,7 +34,13 @@ const userSchema = new Schema<IUser>({
     required: [true, 'Please provide your email'],
     unique: true,
     lowercase: true,
-    validate: [EmailValidator.validate, 'Please provide a valid email'],
+    validate: {
+      validator: function (value: string) {
+        // Custom email validation logic
+        return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(value);
+      },
+      message: 'Invalid email format',
+    },
   },
 
   role: {

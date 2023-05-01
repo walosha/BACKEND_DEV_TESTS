@@ -3,7 +3,7 @@ import { createClient } from 'redis';
 class RedisService {
   client;
   constructor() {
-    this.client = createClient({ url: 'redis://127.0.0.1:6379' });
+    this.client = createClient({ url: process.env.REDIS_URL });
   }
 
   async set({ key, value, timeType, time }: any) {
@@ -15,6 +15,13 @@ class RedisService {
   async get(key: string) {
     await this.client.connect();
     const result = await this.client.get(key);
+    await this.client.disconnect();
+    return result;
+  }
+
+  async exists(key: string) {
+    await this.client.connect();
+    const result = await this.client.exists(key);
     await this.client.disconnect();
     return result;
   }

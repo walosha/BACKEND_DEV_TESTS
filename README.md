@@ -61,7 +61,7 @@ This API is versioned using the URI path. The current version is v1, which is in
 
 ### Rate Limiting
 
-Rate limiting is not currently implemented.
+Rate limiting is currently implemented with Redis
 
 ### Authentication and Authorization
 

@@ -1,6 +1,5 @@
 import express from 'express';
 import morgan from 'morgan';
-// import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -11,20 +10,22 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import * as dotenv from 'dotenv';
 import { options } from './constant/swaggerOptions';
+import { customRedisRateLimiter } from './middleware/ratelimiter';
 dotenv.config();
 
 // Start express app
 const app = express();
 const specs = swaggerJsdoc(options);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+app.use('/v1/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 app.enable('trust proxy');
 
-// 1) GLOBAL MIDDLEWARES
 // Implement CORS
 app.use(cors());
 // Set security HTTP headers
-// app.use(helmet());
+
+// Implemened 10 requests in 24 hrs limit!
+app.use(customRedisRateLimiter);
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {

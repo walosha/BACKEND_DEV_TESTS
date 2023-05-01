@@ -40,8 +40,9 @@
  */
 
 import express from 'express';
-import { login, refresh, signup } from '../service';
+import { getMe, login, refresh, signup } from '../service';
 import { refreshMiddleware } from '../../../middleware/refresh';
+import { protect } from '../../../middleware';
 const router = express.Router();
 
 /**
@@ -127,5 +128,21 @@ router.post('/login', login);
  */
 
 router.post('/refresh', refreshMiddleware, refresh);
+
+/**
+ * @swagger
+ * /api/v1/auth/me:
+ *   post:
+ *     summary: Get user profile
+ *     tags: [User]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       "200":
+ *         description: The user profile
+ *       "401":
+ *         description: Unauthorized
+ */
+router.post('/me', protect, getMe);
 
 export default router;
