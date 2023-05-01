@@ -1,7 +1,9 @@
 export interface UserPayload {
-  id: string;
+  id?: string;
+  name: string;
   email: string;
   role: string;
+  token?: string;
 }
 
 declare module 'express-serve-static-core' {

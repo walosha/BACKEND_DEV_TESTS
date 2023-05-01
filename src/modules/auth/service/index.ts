@@ -1,34 +1,53 @@
 import { sign } from 'jsonwebtoken';
 import { IUser } from '../types';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import User from '../model';
 import { AppError } from '../../../utils/appError';
 import { catchAsync } from '../../../utils/catchAsync';
+import redisService from '../../../utils/redis';
 
-const signToken = (id: string) => {
-  return sign({ id }, process.env.JWT_SECRET as string, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
-  });
+const accessToken = (user: { _id: string; name: string; email: string; role: string }) => {
+  return sign(
+    { id: user._id, name: user.name, email: user.email, type: process.env.JWT_ACCESS, role: user.role },
+    process.env.JWT_KEY_SECRET as string,
+    {
+      subject: user.email,
+      expiresIn: process.env.JWT_EXPIRES_IN,
+      audience: process.env.JWT_AUDIENCE,
+      issuer: process.env.JWT_ISSUER,
+    },
+  );
+};
+
+const refreshToken = (user: { _id: string; name: string; email: string; role: string }) => {
+  return sign(
+    { id: user._id, name: user.name, email: user.email, type: process.env.JWT_REFRESH, role: user.role },
+    process.env.JWT_KEY_REFRESH as string,
+    {
+      subject: user.email,
+      expiresIn: process.env.JWT_EXPIRES_IN,
+      audience: process.env.JWT_AUDIENCE,
+      issuer: process.env.JWT_ISSUER,
+    },
+  );
 };
 
 const createSendToken = (user: IUser, statusCode: number, req: Request, res: Response) => {
-  const token = signToken(user._id);
-
-  res.cookie('jwt', token, {
-    expires: new Date(Date.now() + (+!process.env.JWT_COOKIE_EXPIRES_IN || 0) * 24 * 60 * 60 * 1000),
-    httpOnly: true,
-    secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
-  });
+  const acess = accessToken(user);
+  const refresh = refreshToken(user);
 
   // Remove password from output
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { password, ...otherUserData } = user;
+  const { name, email, role, ...otherUserData } = user;
 
   res.status(statusCode).json({
     status: 'success',
-    token,
+    acess,
+    refresh,
     data: {
-      user: otherUserData,
+      name,
+      email,
+      role,
     },
   });
 };
@@ -67,4 +86,16 @@ export function logout(req: Request, res: Response) {
     httpOnly: true,
   });
   res.status(200).json({ status: 'success' });
+}
+
+export async function refresh(req: Request, res: Response) {
+  const user: any = req.user;
+  await redisService.set({
+    key: user?.token,
+    value: '1',
+    timeType: 'EX',
+    time: parseInt(process.env.JWT_REFRESH_TIME || '', 10),
+  });
+  const refresh = refreshToken(user);
+  return res.status(200).json({ status: 'sucess', refresh });
 }

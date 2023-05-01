@@ -6,5 +6,8 @@
     "typeRoots": ["./node_modules/@types", "./@types", "./types/express.d.ts"]
   },
   "include": ["src", "@types/express.d.ts"],
-  "exclude": ["node_modules", "**/node_modules/*"]
+  "exclude": ["node_modules", "**/node_modules/*"],
+  "ts-node": {
+    "swc": true
+  }
 }

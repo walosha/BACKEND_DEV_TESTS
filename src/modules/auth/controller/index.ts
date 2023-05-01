@@ -40,7 +40,8 @@
  */
 
 import express from 'express';
-import { login, signup } from '../service';
+import { login, refresh, signup } from '../service';
+import { refreshMiddleware } from '../../../middleware/refresh';
 const router = express.Router();
 
 /**
@@ -87,5 +88,44 @@ router.post('/signup', signup);
  *               $ref: '#/components/schemas/User'
  */
 router.post('/login', login);
+
+/**
+ * @swagger
+ * /api/v1/auth/refresh:
+ *   post:
+ *     summary: Refreshes the access token
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - refresh
+ *             properties:
+ *               refresh:
+ *                 type: string
+ *                 description: Refresh token
+ *                 example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NGYwMjg0MWRmNGJlYzliOWI3ZjlhYSIsImlhdCI6MTY4Mjg5OTU4OCwiZXhwIjoxNjgzMDcyMzg4fQ.Bt2kzyxyUEtUy9pLvr0zSzpI8_xTaM6KulO2mwYztbQ
+ *     responses:
+ *       "200":
+ *         description: The new access token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 accessToken:
+ *                   type: string
+ *                   description: Access token
+ *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKb2huIERvZSIsImlhdCI6MTUxNjIzOTAyMn0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+ *       "400":
+ *         description: Invalid request or refresh token is not present
+ *       "401":
+ *         description: Invalid or expired token or refresh token was already used
+ */
+
+router.post('/refresh', refreshMiddleware, refresh);
 
 export default router;

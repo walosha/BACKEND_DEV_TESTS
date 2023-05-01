@@ -15,7 +15,6 @@ dotenv.config();
 
 // Start express app
 const app = express();
-
 const specs = swaggerJsdoc(options);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
@@ -42,7 +41,6 @@ app.use(mongoSanitize());
 // 3) ROUTES
 app.use('/api/v1/auth', userRouter);
 app.all('*', (req, res, next) => {
-  console.log('====================');
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
