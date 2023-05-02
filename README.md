@@ -44,7 +44,7 @@ This command will build and start the Docker containers.
 
 ### API Documentation
 
-This API is documented using Swagger. You can access the API documentation at http://localhost:3000/docs after starting the application.
+This API is documented using Swagger. You can access the API documentation at http://localhost:3000/api/v1/api-docs after starting the application.
 
 ### Usage
 
