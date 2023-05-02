@@ -91,6 +91,6 @@ router.get('/', restrictTo('admin'), fetchUsers);
  *         description: User not found
  */
 
-router.get('/', protect, deleteUser);
+router.delete('/:id', deleteUser);
 
 export default router;

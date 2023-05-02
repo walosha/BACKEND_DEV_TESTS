@@ -112,8 +112,6 @@ export async function fetchUsers(req: Request, res: Response) {
   console.log({ body });
   try {
     const users = await User.find();
-    console.log({ users });
-
     return res.status(200).json({ message: 'sucessfully fetch users', data: users });
   } catch (error: any) {
     new AppError(error.message, 201);
@@ -124,9 +122,8 @@ export async function deleteUser(req: Request, res: Response) {
   const id = req.params.id;
 
   try {
-    const users = await User.deleteOne({ id });
-
-    return res.status(200).json({ message: 'sucessfully fetch users', data: users });
+    await User.deleteOne({ _id: id });
+    return res.status(200).json({ message: 'sucessfully deleted users' });
   } catch (error: any) {
     new AppError(error.message, 201);
   }
