@@ -17,7 +17,7 @@ dotenv.config();
 // Start express app
 const app = express();
 const specs = swaggerJsdoc(options);
-app.use('/v1/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+app.use('api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 app.enable('trust proxy');
 
@@ -43,6 +43,7 @@ app.use(mongoSanitize());
 // 3) ROUTES
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/transfer', userRouter);
 app.use(errorHandler);
 
 export default app;
