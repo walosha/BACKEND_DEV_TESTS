@@ -2,41 +2,32 @@
  * @swagger
  * components:
  *   schemas:
- *     SignupRequest:
+ *     User:
  *       type: object
  *       required:
- *         - email
- *         - password
  *         - name
+ *         - email
  *       properties:
  *         name:
  *           type: string
  *           description: The user name
  *         email:
  *           type: string
+ *           format: email
  *           description: The user email address
  *         password:
  *           type: string
- *           description: The user password
+ *           description: The user password (hashed)
+ *         role:
+ *           type: string
+ *           enum: [user, admin]
+ *           description: The user role
+ *           default: user
  *       example:
  *         name: John Doe
  *         email: johndoe@example.com
- *         password: password123
- *     LoginRequest:
- *       type: object
- *       required:
- *         - email
- *         - password
- *       properties:
- *         email:
- *           type: string
- *           description: The user email address
- *         password:
- *           type: string
- *           description: The user password
- *       example:
- *         email: johndoe@example.com
- *         password: password123
+ *         password: $2a$10$gR06R4K1NM4p4b4ELq.LlOTzq3Dcxj2iPwE5U/O2MDE70o9noemhO
+ *         role: user
  */
 
 import express from 'express';
@@ -65,7 +56,7 @@ const router = express.Router();
  *         description: Unauthorized
  */
 
-router.get('/', restrictTo('admin'), fetchUsers);
+router.get('/', protect, restrictTo('admin'), fetchUsers);
 
 /**
  * @swagger
@@ -90,7 +81,8 @@ router.get('/', restrictTo('admin'), fetchUsers);
  *       "404":
  *         description: User not found
  */
+// A simple case where users can only delete themselves not the admin
 
-router.delete('/:id', deleteUser);
+router.delete('/:id', restrictTo('user'), deleteUser);
 
 export default router;

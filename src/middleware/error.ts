@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { AppError } from '../utils/appError';
 
 const handleCastErrorDB = (err: any) => {
@@ -64,13 +64,12 @@ const sendErrorProd = (err: any, req: Request, res: Response) => {
   });
 };
 
-export const globalErrorHandler = (err: any, req: Request, res: Response) => {
+function globalErrorHandler(err: any, req: Request, res: Response, next: NextFunction) {
   // console.log(err.stack);
-  console.log({ err, req, res }, '----------------------------');
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === undefined) {
     sendErrorDev(err, req, res);
   } else if (process.env.NODE_ENV === 'production') {
     let error = { ...err };
@@ -84,4 +83,6 @@ export const globalErrorHandler = (err: any, req: Request, res: Response) => {
 
     sendErrorProd(error, req, res);
   }
-};
+}
+
+export default globalErrorHandler;

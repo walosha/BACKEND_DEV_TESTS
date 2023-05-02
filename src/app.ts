@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import morgan from 'morgan';
 import mongoSanitize from 'express-mongo-sanitize';
 import cookieParser from 'cookie-parser';
@@ -6,7 +6,7 @@ import cors from 'cors';
 import { AppError } from './utils/appError';
 import authRouter from './modules/auth/controller';
 import userRouter from './modules/auth/controller/users';
-import { globalErrorHandler } from './middleware';
+import errorHandler from './middleware/error';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import * as dotenv from 'dotenv';
@@ -43,10 +43,6 @@ app.use(mongoSanitize());
 // 3) ROUTES
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
-app.all('*', (req, res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
-});
-
-app.use(globalErrorHandler);
+app.use(errorHandler);
 
 export default app;
