@@ -4,7 +4,7 @@ import { AppError } from '../utils/appError';
 import redisService from '../utils/redis';
 
 const WINDOW_SIZE_IN_HOURS = 24;
-const MAX_WINDOW_REQUEST_COUNT = 10;
+const MAX_WINDOW_REQUEST_COUNT = 20;
 const WINDOW_LOG_INTERVAL_IN_HOURS = 1;
 
 export const customRedisRateLimiter = async (req: Request, res: Response, next: NextFunction) => {

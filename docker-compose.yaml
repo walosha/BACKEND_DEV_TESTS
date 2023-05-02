@@ -8,16 +8,16 @@ services:
       - '6379:6379'
     volumes:
       - app_data:/data
-  test_app:
-    build: .
-    image: walosha/backend_test_api
-    ports:
-      - '3000:3000'
-    env_file:
-      - ./.env
-    depends_on:
-      - test_db
-      - test_redis
+  # test_app:
+  #   build: .
+  #   image: walosha/backend_test_api
+  #   ports:
+  #     - '3000:3000'
+  #   env_file:
+  #     - ./.env
+  #   depends_on:
+  #     - test_db
+  #     - test_redis
 
   test_db:
     image: mongo

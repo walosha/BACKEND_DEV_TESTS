@@ -7,7 +7,7 @@ export const options = {
       version: '1.0.0',
       description: 'API documentation',
       contact: {
-        name: 'LogRocket',
+        name: 'bacnk-api',
         url: 'localhost:3000',
         email: 'walosha@yahoo.com',
       },
