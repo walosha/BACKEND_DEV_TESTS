@@ -52,8 +52,8 @@ The following routes are available:
 
 - /api/v1/auth/signup - Creates an account
 - /api/v1/auth/login - Logs in a user
-- /api/v1/account - Retrieves account information
-- /api/v1/transfer - Transfers funds between accounts
+- /api/v1/account/transfer - Transfers funds between accounts
+- others
 
 ### API Versioning
 
