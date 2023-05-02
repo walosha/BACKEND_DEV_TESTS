@@ -50,7 +50,7 @@ const router = express.Router();
  * /api/v1/auth/signup:
  *   post:
  *     summary: Creates an account
- *     tags: [User]
+ *     tags: [Auth]
  *     requestBody:
  *       required: true
  *       content:
@@ -73,7 +73,7 @@ router.post('/signup', signup);
  * /api/v1/auth/login:
  *   post:
  *     summary: Login User
- *     tags: [User]
+ *     tags: [Auth]
  *     requestBody:
  *       required: true
  *       content:
@@ -134,7 +134,7 @@ router.post('/refresh', refreshMiddleware, refresh);
  * /api/v1/auth/me:
  *   post:
  *     summary: Get user profile
- *     tags: [User]
+ *     tags: [Auth]
  *     security:
  *       - bearerAuth: []
  *     responses:

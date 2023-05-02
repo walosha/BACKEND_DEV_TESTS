@@ -106,3 +106,28 @@ export async function refresh(req: Request, res: Response) {
   const refresh = refreshToken(user);
   return res.status(200).json({ status: 'sucess', refresh });
 }
+
+export async function fetchUsers(req: Request, res: Response) {
+  const body = req.body;
+  console.log({ body });
+  try {
+    const users = await User.find();
+    console.log({ users });
+
+    return res.status(200).json({ message: 'sucessfully fetch users', data: users });
+  } catch (error: any) {
+    new AppError(error.message, 201);
+  }
+}
+
+export async function deleteUser(req: Request, res: Response) {
+  const id = req.params.id;
+
+  try {
+    const users = await User.deleteOne({ id });
+
+    return res.status(200).json({ message: 'sucessfully fetch users', data: users });
+  } catch (error: any) {
+    new AppError(error.message, 201);
+  }
+}
